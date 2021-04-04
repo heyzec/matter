@@ -1,3 +1,7 @@
+# vimAu set expandtab shiftwidth=2 softtabstop=2
+# vimF2 w | !rsync -a -delete -e 'ssh -p 5679' . heyzec@localhost:matter/ && ssh -t heyzec@localhost -p 5679 'tmux send-keys -t ssh "vim matter/theme.txt.template" Enter && tmux a || bash'
+# vimF3 e | !~/matter/matter.py -i arch folder _ _ _ _ _ _ _ _ _ ; bash
+
 # If this file is called theme.txt then the theme template has been
 # already parsed and the comments below could not make too much sense.
 
@@ -11,7 +15,7 @@
 title-text: ""
 # desktop-image: "{image_name}"
 desktop-color: "{background}"
-terminal-font: "default" # a random name to let the default font for the console
+terminal-font: "Unifont Regular 16" # a random name to let the default font for the console
 terminal-box: "terminal_box_*.png"
 terminal-left: "0"
 terminal-top: "0"

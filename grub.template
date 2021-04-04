@@ -1,5 +1,5 @@
 GRUB_THEME={installation_dir}/theme.txt
-GRUB_GFXMODE=1920x1080,auto
+GRUB_GFXMODE=1920x1080,1152x864,auto
 
 # Fedora specific fixes
 GRUB_ENABLE_BLSCFG=false
