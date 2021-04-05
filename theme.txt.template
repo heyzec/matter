@@ -1,12 +1,12 @@
 # vimAu set expandtab shiftwidth=2 softtabstop=2
 # vimF2 w | !rsync -a -delete -e 'ssh -p 5679' . heyzec@localhost:matter/ && ssh -t heyzec@localhost -p 5679 'tmux send-keys -t ssh "vim matter/theme.txt.template" Enter && tmux a || bash'
-# vimF3 e | !~/matter/matter.py -i arch folder _ _ _ _ _ _ _ _ _ ; bash
+# vimF3 e | !~/matter/matter.py -i ubuntu microsoft-windows folder _ _ _ _ _ _ cog ; bash
 
 # If this file is called theme.txt then the theme template has been
 # already parsed and the comments below could not make too much sense.
 
 # theme.txt.template represents a python string that gets format()-ed
-# Note: for escaping literal curly braces, double them like so: {{ or }}
+# Note: for scaping literal curly braces, double them like so: {{ or }}
 
 # {theme_name} Theme File
 # Designed for any resolution
@@ -29,10 +29,10 @@ terminal-border: "0"
   top = 29%
   width = 28%
   height = 60%
-  item_font = "{fontname}"
+  item_font = "Test Regular 32" # "{fontname}"
   item_color = "{foreground}"
   selected_item_color = "{highlight}"
-  icon_width = 72
+  icon_width = 500
   icon_height = 72
   item_height = 72
   item_spacing = 36

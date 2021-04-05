@@ -7,8 +7,8 @@ import xml.dom.minidom
 
 def inkscape_convert_svg2png(color, src_path, dst_path):
     SVG_URI = 'http://www.w3.org/2000/svg'
-    FRAC = 0.7
     TEMPFILE = 'temp.svg'
+    FRAC = 0.7
 
     def parse_with_map(source):
         """Parses file, returns a tuple containing the parsed ElementTree and a namespace map (dict).
@@ -42,7 +42,7 @@ def inkscape_convert_svg2png(color, src_path, dst_path):
 
     root = dom.getroot()
     width, height = int_ignore_units(root.attrib['width']), int_ignore_units(root.attrib['height'])
-    width_gap, height_gap = (1-FRAC)*width/2, (1-FRAC)*height/2
+    # width_gap, height_gap = (1-FRAC)*width/2, (1-FRAC)*height/2
 
     # Group all elements that are children of <svg> while changing their 'style' attributes
     elements = root.findall('svg:*', namespaces={'svg': SVG_URI})
@@ -57,17 +57,44 @@ def inkscape_convert_svg2png(color, src_path, dst_path):
             else:
                 child.attrib['style'] = f'fill:{color};'
         group.append(element)
+
+
+    ### TEST
+
+    FRAC = 0.7
+    PAD = 10
+    CONST_X = -65
+    CONST_Y = 3
+    root.attrib['height'] = '96'
+    root.attrib['width'] = '672' #96*7
+
     # Shrink the svg by a factor of FRAC for padding around icon
-    group.attrib['transform'] = f"matrix({FRAC},0,0,{FRAC},{width_gap},{height_gap})"
+    group.attrib['transform'] = f"matrix({FRAC},0,0,{FRAC},{CONST_X},{CONST_Y})"
+
+    FONT_SIZE = 10
+    TEXT_X = -42
+    TEXT_Y = 16
+
+    text = ET.SubElement(root, 'text')
+    text.attrib['style'] = f"font-size:{FONT_SIZE}px;font-family:sans-serif;fill:{color};"
+    text.attrib['x'] = str(TEXT_X)
+    text.attrib['y'] = str(TEXT_Y)
+    text.text = os.path.basename(src_path)
+
+
+
+
+    ### TEST
+
 
     xml_string = ET.tostring(root).decode()
     xml_string = prettify(xml_string)
     with open(TEMPFILE, 'w') as f:
         f.write(xml_string)
 
-    cmd = f"inkscape --export-filename='{dst_path}' {TEMPFILE} -w 72 2>/dev/null"
+    cmd = f"inkscape --export-filename='{dst_path}' {TEMPFILE}  2>/dev/null"
     exit_code = os.system(cmd)
-    os.remove(TEMPFILE)
+    # os.remove(TEMPFILE)
     return exit_code
 
 def magick_convert_svg2png(color, src_path, dst_path):
@@ -83,6 +110,9 @@ def magick_convert_svg2png(color, src_path, dst_path):
 if __name__ == '__main__':
     svg2png = inkscape_convert_svg2png
     # svg2png = magick_convert_svg2png
+
+    # svg2png('#000000', 'icons/ubuntu.svg', 'icons/ubuntu.png')
+
     for file in os.listdir('./icons'):
         basename, ext = os.path.splitext(file)
         if ext == '.svg':
